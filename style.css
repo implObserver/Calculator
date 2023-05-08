@@ -46,14 +46,19 @@ main {
     padding-top: 24px;
 }
 
-.calculator__io-field {
+.calculator__fields {
     border: black 1px solid;
     display: flex;
+    flex-direction: column;
     justify-content: right;
     align-items: end;
     height: 15%;
     width: 90%;
     padding: 8px;
+}
+
+.calculator__fields__input-text{
+    font-size: 24px;
 }
 
 .calculator__buttons {

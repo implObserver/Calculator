@@ -58,8 +58,89 @@ main {
 
 .calculator__buttons {
     border: black 1px solid;
+    display: grid;
+    gap: 1px;
     height: 80%;
     width: 90%;
+    grid-template-areas: 
+    'delete remove division division'
+    'num-7 num-8 num-9 multiply'
+    'num-4 num-5 num-6 minus'
+    'num-1 num-2 num-3 plus'
+    'num-0 dot equal plus';
+}
+
+
+#plus {
+    grid-area: plus;
+}
+
+#minus {
+    grid-area: minus;
+}
+
+#multiply {
+    grid-area: multiply;
+}
+
+#division {
+    grid-area: division;
+}
+
+#equal {
+    grid-area: equal;
+}
+
+#delete {
+    grid-area: delete;
+}
+
+#remove {
+    grid-area: remove;
+}
+
+#dot {
+    grid-area: dot;
+}
+
+#num-1 {
+    grid-area: num-1;
+}
+
+#num-2 {
+    grid-area: num-2;
+}
+
+#num-3 {
+    grid-area: num-3;
+}
+
+#num-4 {
+    grid-area: num-4;
+}
+
+#num-5 {
+    grid-area: num-5;
+}
+
+#num-6 {
+    grid-area: num-6;
+}
+
+#num-7 {
+    grid-area: num-7;
+}
+
+#num-8 {
+    grid-area: num-8;
+}
+
+#num-9 {
+    grid-area: num-9;
+}
+
+#number-0 {
+    grid-area: num-0;
 }
 
 .calculator-footer {

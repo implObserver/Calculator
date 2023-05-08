@@ -46,7 +46,7 @@ main {
     padding-top: 24px;
 }
 
-.calculator__fields {
+.calculator__display {
     border: black 1px solid;
     display: flex;
     flex-direction: column;
@@ -57,7 +57,7 @@ main {
     padding: 8px;
 }
 
-.calculator__fields__input-text{
+.calculator__display__large-area__text{
     font-size: 24px;
 }
 

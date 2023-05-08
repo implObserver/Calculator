@@ -75,12 +75,10 @@ main {
         '_0 dot equal plus';
 }
 
-.calculator__buttons__operands {
+.calculator__buttons__operands, #dot__46 {
     background-color: #eeeeee;
     color: black;
 }
-
-
 
 #plus__43 {
     grid-area: plus;
@@ -94,7 +92,7 @@ main {
     grid-area: multiply;
 }
 
-#division__143 {
+#division__247 {
     grid-area: division;
 }
 
@@ -118,7 +116,7 @@ main {
     grid-area: _1;
 }
 
-#num-2__50{
+#num-2__50 {
     grid-area: _2;
 }
 

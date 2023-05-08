@@ -11,9 +11,9 @@ setDisabledOperands(true);
 buttonDelete.addEventListener('click', deleteAreasOutput);
 
 buttonEqual.addEventListener('click', e => {
-    let mathChain = largeAreaText.textContent;
-    smallAreaText.textContent = mathChain + getSymbol(e);
-    mathHundler(mathChain.trim());
+    let equation = largeAreaText.textContent.trim();
+    smallAreaText.textContent = equation + getSymbol(e);
+    mathHundler(getDecomposeEquation(equation));
 })
 
 buttonDot.addEventListener('click', e => {
@@ -59,11 +59,38 @@ function getSymbol(e) {
     return String.fromCharCode(e.target.id.split('__')[1]);
 }
 
-function mathHundler(chain) {
-    let chainLinks = chain.match(/(\.\d+)|(\d+\.\d+)|\d+|[^0-9]/g);
-    console.log(chainLinks);
+function getDecomposeEquation(equation) {
+    let decomposeEquation = equation.match(/(\.\d+)|(\d+\.\d+)|\d+|[^0-9]/g);
+    return parseFloatElements(getCheckDot(decomposeEquation));
 }
 
-function checkDot(str) {
-    return str[0] === '.' ? `0${str}` : str;
+function mathHundler(decomposeEquation) {
+    for (let i = 0; i < decomposeEquation.length; i++) {
+        let equationComponent = decomposeEquation[i];
+        if (equationComponent === '\367') {
+            let resultCalculationComponent = decomposeEquation[i - 1] / decomposeEquation[i + 1];
+            decomposeEquation.splice(i - 1, 3, resultCalculationComponent);
+        }
+
+        if (equationComponent === '\327') {
+            let resultCalculationComponent = decomposeEquation[i - 1] * decomposeEquation[i + 1];
+            decomposeEquation.splice(i - 1, 3, resultCalculationComponent);
+        }
+    }
+    console.log(decomposeEquation);
+}
+
+
+function getCheckDot(array) {
+    let processsedArr = array.map(e => e[0] === '.' ? `0${e}` : e);
+    return processsedArr
+}
+
+function parseFloatElements(array) {
+    let processedArr = array;
+    for (let i = 0; i <= array.length - 1; i += 2) {
+        processedArr[i] = parseFloat(processedArr[i]);
+    }
+
+    return processedArr;
 }

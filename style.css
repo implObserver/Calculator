@@ -50,9 +50,9 @@ main {
     border: black 1px solid;
     display: flex;
     flex-direction: column;
-    justify-content: right;
+    justify-content: space-between;
     align-items: end;
-    height: 15%;
+    height: 20%;
     width: 90%;
     padding: 8px;
 }
@@ -75,24 +75,30 @@ main {
         '_0 dot equal plus';
 }
 
+.calculator__buttons__operands {
+    background-color: #eeeeee;
+    color: black;
+}
 
-#plus {
+
+
+#plus__43 {
     grid-area: plus;
 }
 
-#minus {
+#minus__45 {
     grid-area: minus;
 }
 
-#multiply {
+#multiply__215 {
     grid-area: multiply;
 }
 
-#division {
+#division__143 {
     grid-area: division;
 }
 
-#equal {
+#equal__61 {
     grid-area: equal;
 }
 
@@ -104,47 +110,47 @@ main {
     grid-area: rem;
 }
 
-#dot {
+#dot__46 {
     grid-area: dot;
 }
 
-#_1 {
+#num-1__49 {
     grid-area: _1;
 }
 
-#_2 {
+#num-2__50{
     grid-area: _2;
 }
 
-#_3 {
+#num-3__51 {
     grid-area: _3;
 }
 
-#_4 {
+#num-4__52 {
     grid-area: _4;
 }
 
-#_5 {
+#num-5__53 {
     grid-area: _5;
 }
 
-#_6 {
+#num-6__54 {
     grid-area: _6;
 }
 
-#_7 {
+#num-7_55 {
     grid-area: _7;
 }
 
-#_8 {
+#num-8__56 {
     grid-area: _8;
 }
 
-#_9 {
+#num-9__57 {
     grid-area: _9;
 }
 
-#_0 {
+#num-0__48 {
     grid-area: _0;
 }
 

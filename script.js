@@ -62,8 +62,8 @@ function setDisabledDot(bool) {
 }
 
 function decomposeEquation(equation) {
-    let decomposedEquation = equation.match(/(\.\d+)|(\d+\.\d+)|\d+|[^0-9]/g);
-    return toFloat(addZero(decomposedEquation));
+    let expressions = equation.match(/(\.\d+)|(\d+\.\d+)|\d+|[^0-9]/g);
+    return toFloat(addZero(expressions));
 }
 
 function addZero(array) {
@@ -79,8 +79,8 @@ function toFloat(array) {
     return processedArr;
 }
 
-function calculate(decomposedEquation) {
-    let interimEquation = decomposedEquation;
+function calculate(expressions) {
+    let interimEquation = expressions;
     for (let operand of operands) {
         interimEquation = mathHundler(interimEquation, operand);
     }
@@ -91,15 +91,17 @@ function mathHundler(interimEquation, operand) {
     for (let i = 0; i < interimEquation.length; i++) {
         let equationItem = interimEquation[i];
         if (operand.includes(equationItem)) {
-            let resultCalculationComponent = operand === '\367'
-                ? interimEquation[i - 1] / interimEquation[i + 1]
-                : operand === '\327'
-                    ? interimEquation[i - 1] * interimEquation[i + 1]
-                    : equationItem === '+'
-                        ? interimEquation[i - 1] + interimEquation[i + 1]
-                        : interimEquation[i - 1] - interimEquation[i + 1];
 
-            interimEquation.splice(i - 1, 3, resultCalculationComponent);
+            let expressionResult
+                = operand === '\367'
+                    ? interimEquation[i - 1] / interimEquation[i + 1]
+                    : operand === '\327'
+                        ? interimEquation[i - 1] * interimEquation[i + 1]
+                        : equationItem === '+'
+                            ? interimEquation[i - 1] + interimEquation[i + 1]
+                            : interimEquation[i - 1] - interimEquation[i + 1];
+
+            interimEquation.splice(i - 1, 3, expressionResult);
             --i;
         }
     }

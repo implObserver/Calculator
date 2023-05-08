@@ -9,19 +9,8 @@ const operands = ['\367', '\327', '+-'];
 let isDisabled = true;
 
 setDisabledOperands(true);
+
 buttonDelete.addEventListener('click', clearAreas);
-
-buttonEqual.addEventListener('click', e => {
-    let equation = largeAreaText.textContent.trim();
-    smallAreaText.textContent = equation + getSymbol(e);
-    let decomposedEquation = decomposeEquation(equation);
-    largeAreaText.textContent = calculate(decomposedEquation);
-})
-
-buttonDot.addEventListener('click', e => {
-    largeAreaText.textContent += getSymbol(e);
-    setDisabledDot(true);
-})
 
 for (button of numbersButtons) {
     button.addEventListener('click', e => {
@@ -40,15 +29,23 @@ for (button of operandsButtons) {
     });
 };
 
+buttonDot.addEventListener('click', e => {
+    largeAreaText.textContent += getSymbol(e);
+    setDisabledDot(true);
+})
+
+buttonEqual.addEventListener('click', e => {
+    let equation = largeAreaText.textContent.trim();
+    smallAreaText.textContent = equation + getSymbol(e);
+    let decomposedEquation = decomposeEquation(equation);
+    largeAreaText.textContent = calculate(decomposedEquation);
+})
+
 function setDisabledOperands(bool) {
     isDisabled = bool;
     for (button of operandsButtons) {
         button.disabled = isDisabled;
     }
-}
-
-function setDisabledDot(bool) {
-    buttonDot.disabled = bool;
 }
 
 function clearAreas() {
@@ -60,9 +57,26 @@ function getSymbol(e) {
     return String.fromCharCode(e.target.id.split('__')[1]); //the symbol code is embedded in the id
 }
 
+function setDisabledDot(bool) {
+    buttonDot.disabled = bool;
+}
+
 function decomposeEquation(equation) {
     let decomposedEquation = equation.match(/(\.\d+)|(\d+\.\d+)|\d+|[^0-9]/g);
     return toFloat(addZero(decomposedEquation));
+}
+
+function addZero(array) {
+    let processsedArr = array.map(e => e[0] === '.' ? `0${e}` : e);  //add 0 before .
+    return processsedArr
+}
+
+function toFloat(array) {
+    let processedArr = array;
+    for (let i = 0; i <= array.length - 1; i += 2) {
+        processedArr[i] = parseFloat(processedArr[i]);
+    }
+    return processedArr;
 }
 
 function calculate(decomposedEquation) {
@@ -90,17 +104,4 @@ function mathHundler(interimEquation, operand) {
         }
     }
     return interimEquation;
-}
-
-function addZero(array) {
-    let processsedArr = array.map(e => e[0] === '.' ? `0${e}` : e);  //add 0 before .
-    return processsedArr
-}
-
-function toFloat(array) {
-    let processedArr = array;
-    for (let i = 0; i <= array.length - 1; i += 2) {
-        processedArr[i] = parseFloat(processedArr[i]);
-    }
-    return processedArr;
 }

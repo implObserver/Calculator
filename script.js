@@ -5,6 +5,7 @@ const operandsButtons = Array.from(document.querySelectorAll('.calculator__butto
 const buttonEqual = document.querySelector('#equal__61')
 const buttonDelete = document.querySelector('#delete');
 const buttonDot = document.querySelector('#dot__46');
+const operands = ['\367', '\327', '+-'];
 let isDisabled = true;
 
 setDisabledOperands(true);
@@ -13,7 +14,9 @@ buttonDelete.addEventListener('click', deleteAreasOutput);
 buttonEqual.addEventListener('click', e => {
     let equation = largeAreaText.textContent.trim();
     smallAreaText.textContent = equation + getSymbol(e);
-    mathHundler(getDecomposeEquation(equation));
+    let decomposeEquation = getDecomposeEquation(equation);
+    let finalCalculateResult = calculate(decomposeEquation);
+    console.log(finalCalculateResult);
 })
 
 buttonDot.addEventListener('click', e => {
@@ -26,7 +29,6 @@ for (button of numbersButtons) {
         if (isDisabled) {
             setDisabledOperands(false);
         }
-
         largeAreaText.textContent += getSymbol(e);
     });
 };
@@ -64,25 +66,35 @@ function getDecomposeEquation(equation) {
     return parseFloatElements(getCheckDot(decomposeEquation));
 }
 
-function mathHundler(decomposeEquation) {
-    for (let i = 0; i < decomposeEquation.length; i++) {
-        let equationComponent = decomposeEquation[i];
-        if (equationComponent === '\367') {
-            let resultCalculationComponent = decomposeEquation[i - 1] / decomposeEquation[i + 1];
-            decomposeEquation.splice(i - 1, 3, resultCalculationComponent);
-        }
-
-        if (equationComponent === '\327') {
-            let resultCalculationComponent = decomposeEquation[i - 1] * decomposeEquation[i + 1];
-            decomposeEquation.splice(i - 1, 3, resultCalculationComponent);
-        }
+function calculate(decomposeEquation) {
+    let interimCalculateResult = decomposeEquation;
+    for (let operand of operands) {
+        interimCalculateResult = mathHundler(interimCalculateResult, operand);
     }
-    console.log(decomposeEquation);
+    return interimCalculateResult[0];
 }
 
+function mathHundler(interimCalculateResult, operand) {
+    for (let i = 0; i < interimCalculateResult.length; i++) {
+        let equationComponent = interimCalculateResult[i];
+        if (operand.includes(equationComponent)) {
+            let resultCalculationComponent = operand === '\367'
+                ? interimCalculateResult[i - 1] / interimCalculateResult[i + 1]
+                : operand === '\327'
+                    ? interimCalculateResult[i - 1] * interimCalculateResult[i + 1]
+                    : equationComponent === '+'
+                        ? interimCalculateResult[i - 1] + interimCalculateResult[i + 1]
+                        : interimCalculateResult[i - 1] - interimCalculateResult[i + 1];
+
+            interimCalculateResult.splice(i - 1, 3, resultCalculationComponent);
+            --i;
+        }
+    }
+    return interimCalculateResult;
+}
 
 function getCheckDot(array) {
-    let processsedArr = array.map(e => e[0] === '.' ? `0${e}` : e);
+    let processsedArr = array.map(e => e[0] === '.' ? `0${e}` : e);  //add 0 before .
     return processsedArr
 }
 
@@ -91,6 +103,5 @@ function parseFloatElements(array) {
     for (let i = 0; i <= array.length - 1; i += 2) {
         processedArr[i] = parseFloat(processedArr[i]);
     }
-
     return processedArr;
 }

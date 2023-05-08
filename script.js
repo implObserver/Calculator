@@ -9,19 +9,18 @@ const operands = ['\367', '\327', '+-'];
 let isDisabled = true;
 
 setDisabledOperands(true);
-buttonDelete.addEventListener('click', deleteAreasOutput);
+buttonDelete.addEventListener('click', clearAreas);
 
 buttonEqual.addEventListener('click', e => {
     let equation = largeAreaText.textContent.trim();
     smallAreaText.textContent = equation + getSymbol(e);
-    let decomposeEquation = getDecomposeEquation(equation);
-    let finalCalculateResult = calculate(decomposeEquation);
-    console.log(finalCalculateResult);
+    let decomposedEquation = decomposeEquation(equation);
+    largeAreaText.textContent = calculate(decomposedEquation);
 })
 
 buttonDot.addEventListener('click', e => {
     largeAreaText.textContent += getSymbol(e);
-    setDisableDot(true);
+    setDisabledDot(true);
 })
 
 for (button of numbersButtons) {
@@ -37,7 +36,7 @@ for (button of operandsButtons) {
     button.addEventListener('click', e => {
         largeAreaText.textContent += getSymbol(e);
         setDisabledOperands(true);
-        setDisableDot(false);
+        setDisabledDot(false);
     });
 };
 
@@ -48,57 +47,57 @@ function setDisabledOperands(bool) {
     }
 }
 
-function setDisableDot(bool) {
+function setDisabledDot(bool) {
     buttonDot.disabled = bool;
 }
 
-function deleteAreasOutput() {
+function clearAreas() {
     largeAreaText.textContent = '';
     smallAreaText.textContent = '';
 }
 
 function getSymbol(e) {
-    return String.fromCharCode(e.target.id.split('__')[1]);
+    return String.fromCharCode(e.target.id.split('__')[1]); //the symbol code is embedded in the id
 }
 
-function getDecomposeEquation(equation) {
-    let decomposeEquation = equation.match(/(\.\d+)|(\d+\.\d+)|\d+|[^0-9]/g);
-    return parseFloatElements(getCheckDot(decomposeEquation));
+function decomposeEquation(equation) {
+    let decomposedEquation = equation.match(/(\.\d+)|(\d+\.\d+)|\d+|[^0-9]/g);
+    return toFloat(addZero(decomposedEquation));
 }
 
-function calculate(decomposeEquation) {
-    let interimCalculateResult = decomposeEquation;
+function calculate(decomposedEquation) {
+    let interimEquation = decomposedEquation;
     for (let operand of operands) {
-        interimCalculateResult = mathHundler(interimCalculateResult, operand);
+        interimEquation = mathHundler(interimEquation, operand);
     }
-    return interimCalculateResult[0];
+    return interimEquation[0];
 }
 
-function mathHundler(interimCalculateResult, operand) {
-    for (let i = 0; i < interimCalculateResult.length; i++) {
-        let equationComponent = interimCalculateResult[i];
-        if (operand.includes(equationComponent)) {
+function mathHundler(interimEquation, operand) {
+    for (let i = 0; i < interimEquation.length; i++) {
+        let equationItem = interimEquation[i];
+        if (operand.includes(equationItem)) {
             let resultCalculationComponent = operand === '\367'
-                ? interimCalculateResult[i - 1] / interimCalculateResult[i + 1]
+                ? interimEquation[i - 1] / interimEquation[i + 1]
                 : operand === '\327'
-                    ? interimCalculateResult[i - 1] * interimCalculateResult[i + 1]
-                    : equationComponent === '+'
-                        ? interimCalculateResult[i - 1] + interimCalculateResult[i + 1]
-                        : interimCalculateResult[i - 1] - interimCalculateResult[i + 1];
+                    ? interimEquation[i - 1] * interimEquation[i + 1]
+                    : equationItem === '+'
+                        ? interimEquation[i - 1] + interimEquation[i + 1]
+                        : interimEquation[i - 1] - interimEquation[i + 1];
 
-            interimCalculateResult.splice(i - 1, 3, resultCalculationComponent);
+            interimEquation.splice(i - 1, 3, resultCalculationComponent);
             --i;
         }
     }
-    return interimCalculateResult;
+    return interimEquation;
 }
 
-function getCheckDot(array) {
+function addZero(array) {
     let processsedArr = array.map(e => e[0] === '.' ? `0${e}` : e);  //add 0 before .
     return processsedArr
 }
 
-function parseFloatElements(array) {
+function toFloat(array) {
     let processedArr = array;
     for (let i = 0; i <= array.length - 1; i += 2) {
         processedArr[i] = parseFloat(processedArr[i]);

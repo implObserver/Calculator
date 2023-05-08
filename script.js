@@ -2,6 +2,7 @@ const smallAreaText = document.querySelector('.calculator__display__small-area__
 const largeAreaText = document.querySelector('.calculator__display__large-area__text');
 const numbersButtons = Array.from(document.querySelectorAll('.calculator__buttons__numbers'));
 const operandsButtons = Array.from(document.querySelectorAll('.calculator__buttons__operands'));
+const minusButton = document.querySelector('#minus__45');
 const buttonEqual = document.querySelector('#equal__61')
 const buttonDelete = document.querySelector('#delete');
 const buttonDot = document.querySelector('#dot__46');
@@ -12,11 +13,18 @@ setDisabledOperands(true);
 
 buttonDelete.addEventListener('click', clearAreas);
 
+minusButton.addEventListener('click', e => {
+    largeAreaText.textContent += getSymbol(e);
+    setDisabledMinus(true);
+})
+
 for (button of numbersButtons) {
     button.addEventListener('click', e => {
         if (isDisabled) {
             setDisabledOperands(false);
+            setDisabledMinus(false);
         }
+
         largeAreaText.textContent += getSymbol(e);
     });
 };
@@ -39,6 +47,7 @@ buttonEqual.addEventListener('click', e => {
     smallAreaText.textContent = equation + getSymbol(e);
     let decomposedEquation = decomposeEquation(equation);
     largeAreaText.textContent = calculate(decomposedEquation);
+    setDisabledOperands(true);
 })
 
 function setDisabledOperands(bool) {
@@ -55,6 +64,10 @@ function clearAreas() {
 
 function getSymbol(e) {
     return String.fromCharCode(e.target.id.split('__')[1]); //the symbol code is embedded in the id
+}
+
+function setDisabledMinus(bool) {
+    minusButton.disabled = bool;
 }
 
 function setDisabledDot(bool) {

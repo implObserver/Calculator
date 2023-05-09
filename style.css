@@ -68,6 +68,7 @@ main {
     height: 80%;
     width: 90%;
     grid-template-areas:
+        'bracket-1 bracket-1 bracket-2 bracket-2'
         'del rem division division'
         '_7 _8 _9 multiply'
         '_4 _5 _6 minus'
@@ -81,6 +82,15 @@ main {
     background-color: #eeeeee;
     color: black;
 }
+
+#start-bracket__40 {
+    grid-area: bracket-1;
+}
+
+#end-bracket__41 {
+    grid-area: bracket-2;
+}
+
 
 #plus__43 {
     grid-area: plus;

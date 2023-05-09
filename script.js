@@ -212,16 +212,32 @@ function mathHandler(interimEquation, operand) {
 
             let expressionResult
                 = operand === '\367'
-                    ? interimEquation[i - 1] / interimEquation[i + 1]
+                    ? division(interimEquation[i - 1], interimEquation[i + 1])
                     : operand === '\327'
-                        ? interimEquation[i - 1] * interimEquation[i + 1]
+                        ? multiplication(interimEquation[i - 1], interimEquation[i + 1])
                         : equationItem === '+'
-                            ? interimEquation[i - 1] + interimEquation[i + 1]
-                            : interimEquation[i - 1] - interimEquation[i + 1];
+                            ? summ(interimEquation[i - 1], interimEquation[i + 1])
+                            : difference(interimEquation[i - 1], interimEquation[i + 1]);
 
             interimEquation.splice(i - 1, 3, expressionResult);
             --i;
         }
     }
     return interimEquation;
+}
+
+function multiplication(x, y) {
+    return x * y;
+}
+
+function division(x, y) {
+    return x / y;
+}
+
+function difference(x, y) {
+    return x - y;
+}
+
+function summ(x, y) {
+    return x + y;
 }

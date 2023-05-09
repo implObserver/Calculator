@@ -20,7 +20,7 @@ leftBracket.addEventListener('click', e => {
 })
 
 rightBracket.addEventListener('click', e => {
-
+    largeAreaText.textContent += getSymbol(e);
 })
 
 buttonDelete.addEventListener('click', clearAreas);
@@ -59,8 +59,7 @@ buttonDot.addEventListener('click', e => {
 buttonEqual.addEventListener('click', e => {
     let equation = largeAreaText.textContent.trim();
     smallAreaText.textContent = equation + getSymbol(e);
-    let decomposedEquation = decomposeEquation(equation);
-    largeAreaText.textContent = calculate(decomposedEquation);
+    largeAreaText.textContent = decomposeBracket(Array.from(equation), 0);
     setDisabledOperands(true);
 })
 
@@ -98,9 +97,27 @@ function setDisabledDot(bool) {
     buttonDot.disabled = bool;
 }
 
+
+function decomposeBracket(equation, ind) {
+
+    for (let i = ind; i < equation.length; i++) {
+        if (equation[i] === '\50') {
+            let section = decomposeBracket(equation, i + 1);
+            let calculateItem = calculate(decomposeEquation(section.join('')));
+            equation.splice(i, section.length + 2, calculateItem);
+        }
+        if (equation[i] === '\51') {
+            let section = equation.slice(ind, i);
+            return section;
+        }
+    }
+
+    let result = calculate(decomposeEquation(equation.join('')));
+    return result;
+}
+
 function decomposeEquation(equation) {
     let expressions = equation.match(/(((?<=[\367\327\+])\-)*(^\-)*(\d*\.*)\d+)|((?<=(\d+.*))[\367\327+-])/g);
-    console.log(expressions);
     return toFloat(addZero(expressions));
 }
 

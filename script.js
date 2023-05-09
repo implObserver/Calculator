@@ -22,6 +22,7 @@ function defaultPreset(text = largeAreaText.textContent) {
     setDisabledDot(false);
     isDisabled = true;
     isCalculated = false;
+    isCorrect = true;
     bracketCounter = 0;
     ansPreset(text);
 }
@@ -32,8 +33,14 @@ function ansPreset(text = largeAreaText.textContent) {
     largeAreaText.textContent = text;
 }
 
+function excPreset(text = 'Incorrect expression') {
+    smallAreaText.textContent = text;
+}
 
 leftBracket.addEventListener('click', e => {
+    if (isCalculated) {
+        defaultPreset();
+    }
     bracketCounter += 1;
     largeAreaText.textContent += getSymbol(e);
     setDisabledRightBrecket(false)
@@ -94,10 +101,11 @@ buttonDot.addEventListener('click', e => {
 
 buttonEqual.addEventListener('click', e => {
     let equation = largeAreaText.textContent.trim();
-    smallAreaText.textContent = equation + getSymbol(e);
-    largeAreaText.textContent = equationHundler(Array.from(equation), 0);
-    isCalculated = true;
-
+    if (validationInput(equation)) {
+        smallAreaText.textContent = equation + getSymbol(e);
+        largeAreaText.textContent = equationHundler(Array.from(equation), 0);
+        isCalculated = true;
+    }
 })
 
 function setDisabledLeftBrecket(bool) {
@@ -132,6 +140,17 @@ function setDisabledDot(bool) {
     buttonDot.disabled = bool;
 }
 
+function validationInput(str) {
+    let abusiveExpressions = str.match(/(\.-)|(\(\))|([\367\327\050+-]$)/g);
+    if (abusiveExpressions != null) {
+        excPreset();
+        return false;
+    } else if (bracketCounter != 0) {
+        excPreset('Forgot the bracket!');
+        return false;
+    }
+    return true;
+}
 
 function equationHundler(equation, begin) {
 

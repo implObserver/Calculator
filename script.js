@@ -36,6 +36,23 @@ rightBracket.addEventListener('click', e => {
 
 buttonDelete.addEventListener('click', clearAreas);
 
+buttonRemove.addEventListener('click', e => {
+    let removableText = largeAreaText.textContent;
+    bracketing(removableText.slice(-1));
+    largeAreaText.textContent = removableText.slice(0, -1);
+})
+
+function bracketing(symbol) {
+    if (symbol === '\50') {
+        bracketCounter -= 1;
+        setDisabledRightBrecket(true);
+    }
+    if (symbol === '\51') {
+        bracketCounter += 1;
+        setDisabledRightBrecket(false);
+    }
+}
+
 buttnMinus.addEventListener('click', e => {
     if (isCalculated) {
         defaultPreset();
@@ -77,11 +94,6 @@ buttonDot.addEventListener('click', e => {
     }
     largeAreaText.textContent += getSymbol(e);
     setDisabledDot(true);
-})
-
-buttonRemove.addEventListener('click', e => {
-    let removableText = largeAreaText.textContent;
-    largeAreaText.textContent = removableText.slice(0, -1);
 })
 
 buttonEqual.addEventListener('click', e => {

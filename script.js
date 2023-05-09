@@ -2,6 +2,8 @@ const smallAreaText = document.querySelector('.calculator__display__small-area__
 const largeAreaText = document.querySelector('.calculator__display__large-area__text');
 const numbersButtons = Array.from(document.querySelectorAll('.calculator__buttons__numbers'));
 const operandsButtons = Array.from(document.querySelectorAll('.calculator__buttons__operands'));
+const leftBracket = document.querySelector('#start-bracket__40');
+const rightBracket = document.querySelector('#end-bracket__41');
 const minusButton = document.querySelector('#minus__45');
 const buttonEqual = document.querySelector('#equal__61')
 const buttonDelete = document.querySelector('#delete');
@@ -10,6 +12,15 @@ const operands = ['\367', '\327', '+-'];
 let isDisabled = true;
 
 setDisabledOperands(true);
+setDisabledRightBrecket(true)
+
+leftBracket.addEventListener('click', e => {
+    setDisabledRightBrecket(true)
+})
+
+rightBracket.addEventListener('click', e => {
+
+})
 
 buttonDelete.addEventListener('click', clearAreas);
 
@@ -24,6 +35,7 @@ for (button of numbersButtons) {
             setDisabledOperands(false);
         }
         setDisabledMinus(false);
+        setDisabledRightBrecket(false)
         largeAreaText.textContent += getSymbol(e);
     });
 };
@@ -49,6 +61,14 @@ buttonEqual.addEventListener('click', e => {
     largeAreaText.textContent = calculate(decomposedEquation);
     setDisabledOperands(true);
 })
+
+function setDisabledLeftBrecket(bool) {
+    leftBracket.enabled = bool;
+}
+
+function setDisabledRightBrecket(bool) {
+    leftBracket.enabled = bool;
+}
 
 function setDisabledOperands(bool) {
     isDisabled = bool;
@@ -77,9 +97,8 @@ function setDisabledDot(bool) {
 }
 
 function decomposeEquation(equation) {
-    let expressions = equation.match(/(\.\d+)|(\d+\.\d+)|\d+|[^0-9]/g);
-    findNegativeNumbers(addZero(expressions));
-    return toFloat(findNegativeNumbers(addZero(expressions)));
+    let expressions = equation.match(/((?<=^)-*\d+)|((?<=\d+)[^0-9])|((?<=[^0-9])(-\d+))|((?<=(\d+[^0-9]))\d+)/g);
+    return toFloat(addZero(expressions));
 }
 
 function addZero(array) {
@@ -122,26 +141,4 @@ function mathHundler(interimEquation, operand) {
         }
     }
     return interimEquation;
-}
-
-function findNegativeNumbers(array) {
-    let processedArr = array;
-    for (let i = 0; i < processedArr.length; i++) {
-        let arrayItem = processedArr[i];
-        if (arrayItem === '-') {
-            if (stringOrNumber(processedArr[i - 1]) === 'string' || i === 0) {
-                let negativeNumbers = `-${processedArr[i + 1]}`;
-                processedArr.splice(i, 2, negativeNumbers);
-            }
-        }
-    }
-    return processedArr;
-}
-
-function stringOrNumber(str) {
-    if (isNaN(str)) {
-        return 'string';
-    } else {
-        return 'number';
-    }
 }

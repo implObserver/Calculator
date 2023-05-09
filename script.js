@@ -1,4 +1,3 @@
-const MINBRACKETING = 2;
 const smallAreaText = document.querySelector('.calculator__display__small-area__text');
 const largeAreaText = document.querySelector('.calculator__display__large-area__text');
 const numbersButtons = Array.from(document.querySelectorAll('.calculator__buttons__numbers'));
@@ -9,24 +8,51 @@ const minusButton = document.querySelector('#minus__45');
 const buttonEqual = document.querySelector('#equal__61')
 const buttonDelete = document.querySelector('#delete');
 const buttonDot = document.querySelector('#dot__46');
+let bracketCounter;
 const operands = ['\367', '\327', '+-'];
-let isDisabled = true;
+let isDisabled;
+let isCalculated;
 
-setDisabledOperands(true);
-setDisabledRightBrecket(true)
+defaultPreset();
+
+function defaultPreset(text = largeAreaText.textContent) {
+    setDisabledOperands(true);
+    setDisabledRightBrecket(true);
+    setDisabledMinus(false);
+    setDisabledDot(false);
+    isDisabled = true;
+    isCalculated = false;
+    bracketCounter = 0;
+    ansPreset(text);
+}
+
+function ansPreset(text = largeAreaText.textContent) {
+    isCalculated = false;
+    smallAreaText.textContent = `Ans = ${largeAreaText.textContent}`;
+    largeAreaText.textContent = text;
+}
+
 
 leftBracket.addEventListener('click', e => {
+    bracketCounter += 1;
     largeAreaText.textContent += getSymbol(e);
     setDisabledRightBrecket(false)
 })
 
 rightBracket.addEventListener('click', e => {
+    bracketCounter -= 1;
+    if (bracketCounter == 0) {
+        setDisabledRightBrecket(true);
+    }
     largeAreaText.textContent += getSymbol(e);
 })
 
 buttonDelete.addEventListener('click', clearAreas);
 
 minusButton.addEventListener('click', e => {
+    if (isCalculated) {
+        defaultPreset();
+    }
     largeAreaText.textContent += getSymbol(e);
     setDisabledMinus(true);
     setDisabledDot(false);
@@ -37,6 +63,9 @@ for (button of numbersButtons) {
         if (isDisabled) {
             setDisabledOperands(false);
         }
+        if (isCalculated) {
+            defaultPreset('');
+        }
         setDisabledMinus(false);
         setDisabledRightBrecket(false)
         largeAreaText.textContent += getSymbol(e);
@@ -45,6 +74,9 @@ for (button of numbersButtons) {
 
 for (button of operandsButtons) {
     button.addEventListener('click', e => {
+        if (isCalculated) {
+            defaultPreset();
+        }
         largeAreaText.textContent += getSymbol(e);
         setDisabledOperands(true);
         setDisabledMinus(false);
@@ -53,6 +85,9 @@ for (button of operandsButtons) {
 };
 
 buttonDot.addEventListener('click', e => {
+    if (isCalculated) {
+        defaultPreset('');
+    }
     largeAreaText.textContent += getSymbol(e);
     setDisabledDot(true);
 })
@@ -61,15 +96,16 @@ buttonEqual.addEventListener('click', e => {
     let equation = largeAreaText.textContent.trim();
     smallAreaText.textContent = equation + getSymbol(e);
     largeAreaText.textContent = equationHundler(Array.from(equation), 0);
-    setDisabledOperands(true);
+    isCalculated = true;
+
 })
 
 function setDisabledLeftBrecket(bool) {
-    leftBracket.enabled = bool;
+    leftBracket.disabled = bool;
 }
 
 function setDisabledRightBrecket(bool) {
-    leftBracket.enabled = bool;
+    rightBracket.disabled = bool;
 }
 
 function setDisabledOperands(bool) {
@@ -81,9 +117,7 @@ function setDisabledOperands(bool) {
 
 function clearAreas() {
     largeAreaText.textContent = '';
-    smallAreaText.textContent = '';
-    setDisabledMinus(false);
-    setDisabledDot(false);
+    defaultPreset();
 }
 
 function getSymbol(e) {
@@ -103,18 +137,46 @@ function equationHundler(equation, begin) {
 
     for (let i = begin; i < equation.length; i++) {
         if (equation[i] === '\50') {
-            let section = equationHundler(equation, i + 1);
-            let calculateItem = calculate(decomposeEquation(section.join('')));
-            equation.splice(i, section.length + MINBRACKETING, calculateItem);
+            if (stringOrNumber(equation[i - 1]) === 'number') {
+                equation = addDefaultMultiply(equation, i);
+                ++i;
+            }
+            ++i;
+            let section = equationHundler(equation, i);
+            let processedSection = section.length === 1 ? section.toString() : section.join('');
+            let calculateItem = calculate(decomposeEquation(processedSection));
+            equation.splice(i, section.length + 1, calculateItem);
         }
         if (equation[i] === '\51') {
+            if (stringOrNumber(equation[i + 1]) === 'number') {
+                equation = addDefaultMultiply(equation, i + 1);
+            }
             let section = equation.slice(begin, i);
             return section;
         }
     }
 
-    let result = calculate(decomposeEquation(equation.join('')));
-    return result;
+    return calculate(decomposeEquation(removeStrayBracket(equation).join('')));
+}
+
+function stringOrNumber(str) {
+    if (isNaN(str)) {
+        return "string";
+    } else {
+        return "number";
+    }
+}
+
+function removeStrayBracket(equation) {
+    let index = equation.indexOf('\50');
+    if (index > -1) { equation.splice(index, 1) };
+    return equation;
+}
+
+function addDefaultMultiply(equation, index) {
+    let processedEquation = equation;
+    processedEquation.splice(index, 0, '\327');
+    return processedEquation;
 }
 
 function decomposeEquation(equation) {

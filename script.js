@@ -1,3 +1,4 @@
+const MINBRACKETING = 2;
 const smallAreaText = document.querySelector('.calculator__display__small-area__text');
 const largeAreaText = document.querySelector('.calculator__display__large-area__text');
 const numbersButtons = Array.from(document.querySelectorAll('.calculator__buttons__numbers'));
@@ -59,7 +60,7 @@ buttonDot.addEventListener('click', e => {
 buttonEqual.addEventListener('click', e => {
     let equation = largeAreaText.textContent.trim();
     smallAreaText.textContent = equation + getSymbol(e);
-    largeAreaText.textContent = decomposeBracket(Array.from(equation), 0);
+    largeAreaText.textContent = equationHundler(Array.from(equation), 0);
     setDisabledOperands(true);
 })
 
@@ -98,16 +99,16 @@ function setDisabledDot(bool) {
 }
 
 
-function decomposeBracket(equation, ind) {
+function equationHundler(equation, begin) {
 
-    for (let i = ind; i < equation.length; i++) {
+    for (let i = begin; i < equation.length; i++) {
         if (equation[i] === '\50') {
-            let section = decomposeBracket(equation, i + 1);
+            let section = equationHundler(equation, i + 1);
             let calculateItem = calculate(decomposeEquation(section.join('')));
-            equation.splice(i, section.length + 2, calculateItem);
+            equation.splice(i, section.length + MINBRACKETING, calculateItem);
         }
         if (equation[i] === '\51') {
-            let section = equation.slice(ind, i);
+            let section = equation.slice(begin, i);
             return section;
         }
     }
@@ -137,12 +138,12 @@ function toFloat(array) {
 function calculate(expressions) {
     let interimEquation = expressions;
     for (let operand of operands) {
-        interimEquation = mathHundler(interimEquation, operand);
+        interimEquation = mathHandler(interimEquation, operand);
     }
     return interimEquation[0];
 }
 
-function mathHundler(interimEquation, operand) {
+function mathHandler(interimEquation, operand) {
     for (let i = 0; i < interimEquation.length; i++) {
         let equationItem = interimEquation[i];
         if (operand.includes(equationItem)) {

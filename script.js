@@ -22,9 +22,8 @@ for (button of numbersButtons) {
     button.addEventListener('click', e => {
         if (isDisabled) {
             setDisabledOperands(false);
-            setDisabledMinus(false);
         }
-
+        setDisabledMinus(false);
         largeAreaText.textContent += getSymbol(e);
     });
 };
@@ -33,6 +32,7 @@ for (button of operandsButtons) {
     button.addEventListener('click', e => {
         largeAreaText.textContent += getSymbol(e);
         setDisabledOperands(true);
+        setDisabledMinus(false);
         setDisabledDot(false);
     });
 };
@@ -60,6 +60,8 @@ function setDisabledOperands(bool) {
 function clearAreas() {
     largeAreaText.textContent = '';
     smallAreaText.textContent = '';
+    setDisabledMinus(false);
+    setDisabledDot(false);
 }
 
 function getSymbol(e) {
@@ -76,7 +78,8 @@ function setDisabledDot(bool) {
 
 function decomposeEquation(equation) {
     let expressions = equation.match(/(\.\d+)|(\d+\.\d+)|\d+|[^0-9]/g);
-    return toFloat(addZero(expressions));
+    findNegativeNumbers(addZero(expressions));
+    return toFloat(findNegativeNumbers(addZero(expressions)));
 }
 
 function addZero(array) {
@@ -119,4 +122,26 @@ function mathHundler(interimEquation, operand) {
         }
     }
     return interimEquation;
+}
+
+function findNegativeNumbers(array) {
+    let processedArr = array;
+    for (let i = 0; i < processedArr.length; i++) {
+        let arrayItem = processedArr[i];
+        if (arrayItem === '-') {
+            if (stringOrNumber(processedArr[i - 1]) === 'string' || i === 0) {
+                let negativeNumbers = `-${processedArr[i + 1]}`;
+                processedArr.splice(i, 2, negativeNumbers);
+            }
+        }
+    }
+    return processedArr;
+}
+
+function stringOrNumber(str) {
+    if (isNaN(str)) {
+        return 'string';
+    } else {
+        return 'number';
+    }
 }

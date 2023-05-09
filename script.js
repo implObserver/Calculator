@@ -15,7 +15,8 @@ setDisabledOperands(true);
 setDisabledRightBrecket(true)
 
 leftBracket.addEventListener('click', e => {
-    setDisabledRightBrecket(true)
+    largeAreaText.textContent += getSymbol(e);
+    setDisabledRightBrecket(false)
 })
 
 rightBracket.addEventListener('click', e => {
@@ -27,6 +28,7 @@ buttonDelete.addEventListener('click', clearAreas);
 minusButton.addEventListener('click', e => {
     largeAreaText.textContent += getSymbol(e);
     setDisabledMinus(true);
+    setDisabledDot(false);
 })
 
 for (button of numbersButtons) {
@@ -97,7 +99,8 @@ function setDisabledDot(bool) {
 }
 
 function decomposeEquation(equation) {
-    let expressions = equation.match(/((?<=^)-*\d+)|((?<=\d+)[^0-9])|((?<=[^0-9])(-\d+))|((?<=(\d+[^0-9]))\d+)/g);
+    let expressions = equation.match(/(((?<=[\367\327\+])\-)*(^\-)*(\d*\.*)\d+)|((?<=(\d+.*))[\367\327+-])/g);
+    console.log(expressions);
     return toFloat(addZero(expressions));
 }
 

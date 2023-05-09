@@ -75,7 +75,9 @@ main {
         '_0 dot equal plus';
 }
 
-.calculator__buttons__operands, #dot__46 {
+.calculator__buttons__operands,
+#dot__46,
+#minus__45 {
     background-color: #eeeeee;
     color: black;
 }

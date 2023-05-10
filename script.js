@@ -1,3 +1,4 @@
+const MINBRACKETS = 2;
 const smallAreaText = document.querySelector('.calculator__display__small-area__text');
 const largeAreaText = document.querySelector('.calculator__display__large-area__text');
 const numbersButtons = Array.from(document.querySelectorAll('.calculator__buttons__numbers'));
@@ -24,6 +25,7 @@ leftBracket.addEventListener('click', e => {
     bracketCounter += 1;
     largeAreaText.textContent += getSymbol(e);
     setDisabledRightBrecket(false)
+    setDisabledMinus(false);
 })
 
 rightBracket.addEventListener('click', e => {
@@ -32,6 +34,7 @@ rightBracket.addEventListener('click', e => {
         setDisabledRightBrecket(true);
     }
     largeAreaText.textContent += getSymbol(e);
+    setDisabledMinus(true);
 })
 
 buttonDelete.addEventListener('click', clearAreas);
@@ -183,8 +186,8 @@ function equationHandler(equation, begin) {
             ++i;
             let section = equationHandler(equation, i);
             let processedSection = section.length === 1 ? section.toString() : section.join('');
-            let calculateItem = calculate(decomposeEquation(processedSection));
-            equation.splice(i, section.length + 1, calculateItem);
+            let calculateItem = calculate(decomposeEquation(getPlus(processedSection)));
+            equation.splice(--i, section.length + MINBRACKETS, calculateItem);
         }
         if (equation[i] === '\51') {
             if (stringOrNumber(equation[i + 1]) === 'number') {
@@ -194,8 +197,12 @@ function equationHandler(equation, begin) {
             return section;
         }
     }
+    return calculate(decomposeEquation(equation.join('')));
+}
 
-    return calculate(decomposeEquation(removeStrayBracket(equation).join('')));
+function getPlus(str) {
+    let processedStr = str.replace(/(\-\-)/g, '\+');
+    return processedStr;
 }
 
 function stringOrNumber(str) {
@@ -206,12 +213,6 @@ function stringOrNumber(str) {
     }
 }
 
-function removeStrayBracket(equation) {
-    let index = equation.indexOf('\50');
-    if (index > -1) { equation.splice(index, 1) };
-    return equation;
-}
-
 function addDefaultMultiply(equation, index) {
     let processedEquation = equation;
     processedEquation.splice(index, 0, '\327');
@@ -219,7 +220,8 @@ function addDefaultMultiply(equation, index) {
 }
 
 function decomposeEquation(equation) {
-    let expressions = equation.match(/(((?<=[\367\327\+])\-)*(^\-)*(\d*\.*)\d+)|((?<=(\d+.*))[\367\327+-])/g);
+    console.log(equation);
+    let expressions = equation.match(/(((?<=[\367\327\+\-])\-)*(^\-)*(\d*\.*)\d+)|((?<=(\d+.*))[\367\327+-])/g);
     return toFloat(addZero(expressions));
 }
 

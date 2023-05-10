@@ -46,21 +46,15 @@ rightBracket.addEventListener('click', e => {
 buttonDelete.addEventListener('click', clearAreas);
 
 buttonRemove.addEventListener('click', e => {
-    let removableText = largeAreaText.textContent;
-    bracketing(removableText.slice(-1));
-    largeAreaText.textContent = removableText.slice(0, -1);
+    let removableText = largeAreaText.textContent.trim();
+    console.log(removableText);
+    if (removableText.length > 1) {
+        removePreset();
+        largeAreaText.textContent = removableText.slice(0, -1);
+    } else {
+        defaultPreset('');
+    }
 })
-
-function bracketing(symbol) {
-    if (symbol === '\50') {
-        bracketCounter -= 1;
-        setDisabledRightBrecket(true);
-    }
-    if (symbol === '\51') {
-        bracketCounter += 1;
-        setDisabledRightBrecket(false);
-    }
-}
 
 buttnMinus.addEventListener('click', e => {
     if (isCalculated) {
@@ -126,16 +120,21 @@ function defaultPreset(text = largeAreaText.textContent) {
     ansPreset(text);
 }
 
+function removePreset() {
+    setDisabledOperands(false);
+    setDisabledMinus(false);
+    setDisabledDot(false);
+}
+
 function ansPreset(text = largeAreaText.textContent) {
     isCalculated = false;
-    smallAreaText.textContent = `Ans = ${largeAreaText.textContent}`;
+    smallAreaText.textContent = `Ans = ${text}`;
     largeAreaText.textContent = text;
 }
 
 function excPreset(text = 'Incorrect expression') {
     smallAreaText.textContent = text;
 }
-
 
 function setDisabledLeftBrecket(bool) {
     leftBracket.disabled = bool;
@@ -167,6 +166,17 @@ function setDisabledMinus(bool) {
 
 function setDisabledDot(bool) {
     buttonDot.disabled = bool;
+}
+
+function bracketing(symbol = largeAreaText.textContent.slice(-1)) {
+    if (symbol === '\50') {
+        bracketCounter -= 1;
+        setDisabledRightBrecket(true);
+    }
+    if (symbol === '\51') {
+        bracketCounter += 1;
+        setDisabledRightBrecket(false);
+    }
 }
 
 function validationInput(str) {

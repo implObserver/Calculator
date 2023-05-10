@@ -47,7 +47,6 @@ buttonDelete.addEventListener('click', clearAreas);
 
 buttonRemove.addEventListener('click', e => {
     let removableText = largeAreaText.textContent.trim();
-    console.log(removableText);
     if (removableText.length > 1) {
         removePreset();
         largeAreaText.textContent = removableText.slice(0, -1);

@@ -220,7 +220,6 @@ function addDefaultMultiply(equation, index) {
 }
 
 function decomposeEquation(equation) {
-    console.log(equation);
     let expressions = equation.match(/(((?<=[\367\327\+\-])\-)*(^\-)*(\d*\.*)\d+)|((?<=(\d+.*))[\367\327+-])/g);
     return toFloat(addZero(expressions));
 }

@@ -16,6 +16,12 @@ let bracketCounter;
 let isDisabled;
 let isCalculated;
 
+const regulars = {
+    validateRegular: '(\\.-)|(\\(\\))|([\\367\\327\\050+-]$)',
+    twoMinus: '(\\-\\-)',
+    mainHandler: '(((?<=[\\367\\327\\+\\-])\\-)*(^\\-)*(\\d*\\.*)\\d+)|((?<=(\\d+.*))[\\367\\327+-])',
+}
+
 defaultPreset();
 
 leftBracket.addEventListener('click', e => {
@@ -164,7 +170,8 @@ function setDisabledDot(bool) {
 }
 
 function validationInput(str) {
-    let abusiveExpressions = str.match(/(\.-)|(\(\))|([\367\327\050+-]$)/g);
+    let validation = new RegExp(regulars.validateRegular, 'g');
+    let abusiveExpressions = str.match(validation);
     if (abusiveExpressions != null) {
         excPreset();
         return false;
@@ -176,7 +183,6 @@ function validationInput(str) {
 }
 
 function equationHandler(equation, begin) {
-
     for (let i = begin; i < equation.length; i++) {
         if (equation[i] === '\50') {
             if (stringOrNumber(equation[i - 1]) === 'number') {
@@ -186,7 +192,7 @@ function equationHandler(equation, begin) {
             ++i;
             let section = equationHandler(equation, i);
             let processedSection = section.length === 1 ? section.toString() : section.join('');
-            let calculateItem = calculate(decomposeEquation(getPlus(processedSection)));
+            let calculateItem = calculate(decomposeEquation(processedSection));
             equation.splice(--i, section.length + MINBRACKETS, calculateItem);
         }
         if (equation[i] === '\51') {
@@ -201,7 +207,8 @@ function equationHandler(equation, begin) {
 }
 
 function getPlus(str) {
-    let processedStr = str.replace(/(\-\-)/g, '\+');
+    let twoMinus = new RegExp(regulars.twoMinus, 'g');
+    let processedStr = str.replace(twoMinus, '\+');
     return processedStr;
 }
 
@@ -220,7 +227,8 @@ function addDefaultMultiply(equation, index) {
 }
 
 function decomposeEquation(equation) {
-    let expressions = equation.match(/(((?<=[\367\327\+\-])\-)*(^\-)*(\d*\.*)\d+)|((?<=(\d+.*))[\367\327+-])/g);
+    let mainHandler = new RegExp(regulars.mainHandler, 'g');
+    let expressions = getPlus(equation).match(mainHandler);
     return toFloat(addZero(expressions));
 }
 

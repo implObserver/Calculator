@@ -104,7 +104,6 @@ buttons.dot.addEventListener('click', e => {
 })
 
 buttons.equal.addEventListener('click', e => {
-    console.log('ww');
     let equation = display.largeText.textContent.trim();
     if (validationInput(equation)) {
         display.smallText.textContent = equation + getSymbol(e);

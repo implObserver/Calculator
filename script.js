@@ -30,21 +30,25 @@ const regulars = {
 
 defaultPreset();
 
+window.addEventListener('click', e => {
+    if (bracketCounter == 0) {
+        setDisabledRightBrecket(true);
+    } else {
+        setDisabledRightBrecket(false);
+    }
+});
+
 buttons.lBracket.addEventListener('click', e => {
     if (isCalculated) {
         defaultPreset();
     }
     bracketCounter += 1;
     display.largeText.textContent += getSymbol(e);
-    setDisabledRightBrecket(false)
     setDisabledMinus(false);
 })
 
 buttons.rBracket.addEventListener('click', e => {
     bracketCounter -= 1;
-    if (bracketCounter == 0) {
-        setDisabledRightBrecket(true);
-    }
     display.largeText.textContent += getSymbol(e);
     setDisabledMinus(true);
 })
@@ -52,6 +56,7 @@ buttons.rBracket.addEventListener('click', e => {
 buttons.del.addEventListener('click', clearAreas);
 
 buttons.remove.addEventListener('click', e => {
+
     let removableText = display.largeText.textContent.trim();
     if (removableText.length > 1) {
         removePreset();
@@ -176,11 +181,10 @@ function setDisabledDot(bool) {
 function bracketing(symbol = display.largeText.textContent.slice(-1)) {
     if (symbol === '\50') {
         bracketCounter -= 1;
-        setDisabledRightBrecket(true);
     }
     if (symbol === '\51') {
         bracketCounter += 1;
-        setDisabledRightBrecket(false);
+
     }
 }
 

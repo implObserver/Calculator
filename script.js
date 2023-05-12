@@ -1,70 +1,76 @@
 const MINBRACKETS = 2;
-const smallAreaText = document.querySelector('.calculator__display__small-area__text');
-const largeAreaText = document.querySelector('.calculator__display__large-area__text');
-const numbersButtons = Array.from(document.querySelectorAll('.calculator__buttons__numbers'));
-const operandsButtons = Array.from(document.querySelectorAll('.calculator__buttons__operands'));
-const leftBracket = document.querySelector('#start-bracket__40');
-const rightBracket = document.querySelector('#end-bracket__41');
-const buttnMinus = document.querySelector('#minus__45');
-const buttonEqual = document.querySelector('#equal__61')
-const buttonDelete = document.querySelector('#delete');
-const buttonRemove = document.querySelector('#remove');
-const buttonDot = document.querySelector('#dot__46');
 
-const operands = ['\367', '\327', '+-'];
+const buttons = {
+    lBracket: document.querySelector('#start-bracket__40'),
+    rBracket: document.querySelector('#end-bracket__41'),
+    minus: document.querySelector('#minus__45'),
+    equal: document.querySelector('#equal__61'),
+    del: document.querySelector('#delete'),
+    remove: document.querySelector('#remove'),
+    dot: document.querySelector('#dot__46'),
+    numbers: Array.from(document.querySelectorAll('.calculator__buttons__numbers')),
+    operands: Array.from(document.querySelectorAll('.calculator__buttons__operands')),
+}
+
+const display = {
+    smallText: document.querySelector('.calculator__display__small-area__text'),
+    largeText: document.querySelector('.calculator__display__large-area__text'),
+}
+
+const markers = ['\367', '\327', '+-'];
 let bracketCounter;
 let isDisabled;
 let isCalculated;
 
 const regulars = {
-    validateRegular: '(\\.-)|(\\(\\))|((?<=(\\-*))[\\367\\327+-]|([\\367\\327\\050+-]$)',
+    validateRegular: '(^\\.*[\\367\\327\\050\\+\\-]*$)|(\\.-)|(\\(\\))|((?<=(\\-))[\\367\\327\\+\\-])|([\\367\\327\\050\\+\\-]$)',
     twoMinus: '(\\-\\-)',
     mainHandler: '(((?<=[\\367\\327\\+\\-])\\-)*(^\\-)*(\\d*\\.*)\\d+)|((?<=(\\d+\\.*))[\\367\\327+-])',
 }
 
 defaultPreset();
 
-leftBracket.addEventListener('click', e => {
+buttons.lBracket.addEventListener('click', e => {
     if (isCalculated) {
         defaultPreset();
     }
     bracketCounter += 1;
-    largeAreaText.textContent += getSymbol(e);
+    display.largeText.textContent += getSymbol(e);
     setDisabledRightBrecket(false)
     setDisabledMinus(false);
 })
 
-rightBracket.addEventListener('click', e => {
+buttons.rBracket.addEventListener('click', e => {
     bracketCounter -= 1;
     if (bracketCounter == 0) {
         setDisabledRightBrecket(true);
     }
-    largeAreaText.textContent += getSymbol(e);
+    display.largeText.textContent += getSymbol(e);
     setDisabledMinus(true);
 })
 
-buttonDelete.addEventListener('click', clearAreas);
+buttons.del.addEventListener('click', clearAreas);
 
-buttonRemove.addEventListener('click', e => {
-    let removableText = largeAreaText.textContent.trim();
+buttons.remove.addEventListener('click', e => {
+    let removableText = display.largeText.textContent.trim();
     if (removableText.length > 1) {
         removePreset();
-        largeAreaText.textContent = removableText.slice(0, -1);
+        display.largeText.textContent = removableText.slice(0, -1);
     } else {
         defaultPreset('');
     }
 })
 
-buttnMinus.addEventListener('click', e => {
+buttons.minus.addEventListener('click', e => {
     if (isCalculated) {
         defaultPreset();
     }
-    largeAreaText.textContent += getSymbol(e);
+    display.largeText.textContent += getSymbol(e);
     setDisabledMinus(true);
     setDisabledDot(false);
 })
 
-for (button of numbersButtons) {
+for (let button of buttons.numbers) {
     button.addEventListener('click', e => {
         if (isDisabled) {
             setDisabledOperands(false);
@@ -73,41 +79,41 @@ for (button of numbersButtons) {
             defaultPreset('');
         }
         setDisabledMinus(false);
-        setDisabledRightBrecket(false)
-        largeAreaText.textContent += getSymbol(e);
+        display.largeText.textContent += getSymbol(e);
     });
 };
 
-for (button of operandsButtons) {
+for (let button of buttons.operands) {
     button.addEventListener('click', e => {
         if (isCalculated) {
             defaultPreset();
         }
-        largeAreaText.textContent += getSymbol(e);
+        display.largeText.textContent += getSymbol(e);
         setDisabledOperands(true);
         setDisabledMinus(false);
         setDisabledDot(false);
     });
 };
 
-buttonDot.addEventListener('click', e => {
+buttons.dot.addEventListener('click', e => {
     if (isCalculated) {
         defaultPreset('');
     }
-    largeAreaText.textContent += getSymbol(e);
+    display.largeText.textContent += getSymbol(e);
     setDisabledDot(true);
 })
 
-buttonEqual.addEventListener('click', e => {
-    let equation = largeAreaText.textContent.trim();
+buttons.equal.addEventListener('click', e => {
+    console.log('ww');
+    let equation = display.largeText.textContent.trim();
     if (validationInput(equation)) {
-        smallAreaText.textContent = equation + getSymbol(e);
-        largeAreaText.textContent = equationHandler(Array.from(equation), 0);
+        display.smallText.textContent = equation + getSymbol(e);
+        display.largeText.textContent = equationHandler(Array.from(equation), 0);
         isCalculated = true;
     }
 })
 
-function defaultPreset(text = largeAreaText.textContent) {
+function defaultPreset(text = display.largeText.textContent) {
     setDisabledOperands(true);
     setDisabledRightBrecket(true);
     setDisabledMinus(false);
@@ -120,38 +126,39 @@ function defaultPreset(text = largeAreaText.textContent) {
 }
 
 function removePreset() {
+    bracketing();
     setDisabledOperands(false);
     setDisabledMinus(false);
     setDisabledDot(false);
 }
 
-function ansPreset(text = largeAreaText.textContent) {
+function ansPreset(text = display.largeText.textContent) {
     isCalculated = false;
-    smallAreaText.textContent = `Ans = ${text}`;
-    largeAreaText.textContent = text;
+    display.smallText.textContent = `Ans = ${text}`;
+    display.largeText.textContent = text;
 }
 
 function excPreset(text = 'Incorrect expression') {
-    smallAreaText.textContent = text;
+    display.smallText.textContent = text;
 }
 
 function setDisabledLeftBrecket(bool) {
-    leftBracket.disabled = bool;
+    buttons.lBracket.disabled = bool;
 }
 
 function setDisabledRightBrecket(bool) {
-    rightBracket.disabled = bool;
+    buttons.rBracket.disabled = bool;
 }
 
 function setDisabledOperands(bool) {
     isDisabled = bool;
-    for (button of operandsButtons) {
+    for (let button of buttons.operands) {
         button.disabled = isDisabled;
     }
 }
 
 function clearAreas() {
-    largeAreaText.textContent = '';
+    display.largeText.textContent = '';
     defaultPreset();
 }
 
@@ -160,14 +167,14 @@ function getSymbol(e) {
 }
 
 function setDisabledMinus(bool) {
-    buttnMinus.disabled = bool;
+    buttons.minus.disabled = bool;
 }
 
 function setDisabledDot(bool) {
-    buttonDot.disabled = bool;
+    buttons.dot.disabled = bool;
 }
 
-function bracketing(symbol = largeAreaText.textContent.slice(-1)) {
+function bracketing(symbol = display.largeText.textContent.slice(-1)) {
     if (symbol === '\50') {
         bracketCounter -= 1;
         setDisabledRightBrecket(true);
@@ -256,7 +263,7 @@ function toFloat(array) {
 
 function calculate(expressions) {
     let interimEquation = expressions;
-    for (let operand of operands) {
+    for (let operand of markers) {
         interimEquation = mathHandler(interimEquation, operand);
     }
     return interimEquation[0];

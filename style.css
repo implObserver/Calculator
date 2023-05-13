@@ -55,7 +55,7 @@ button {
     color: #5f238b;
 }
 
-.calculator__display--wrapper {
+.calculator__display__wrapper {
     border: 1px palevioletred solid;
     height: 20%;
     width: 90%;

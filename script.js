@@ -63,6 +63,7 @@ buttons.remove.addEventListener('click', e => {
         display.largeText.textContent = removableText.slice(0, -1);
     } else {
         defaultPreset('');
+        ansPreset('','');
     }
 })
 

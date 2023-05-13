@@ -13,6 +13,7 @@ const buttons = {
 }
 
 const display = {
+    area: document.querySelector('.calculator__display'),
     smallText: document.querySelector('.calculator__display__small-area__text'),
     largeText: document.querySelector('.calculator__display__large-area__text'),
 }
@@ -31,6 +32,7 @@ const regulars = {
 defaultPreset();
 
 window.addEventListener('click', e => {
+    display.area.scrollLeft = display.area.scrollWidth;
     if (bracketCounter == 0) {
         setDisabledRightBrecket(true);
     } else {
@@ -63,7 +65,7 @@ buttons.remove.addEventListener('click', e => {
         display.largeText.textContent = removableText.slice(0, -1);
     } else {
         defaultPreset('');
-        ansPreset('','');
+        ansPreset('', '');
     }
 })
 

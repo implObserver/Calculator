@@ -75,6 +75,7 @@ button {
 .calculator__display::-webkit-scrollbar {
     border-radius: 10px 10px;
     height: 5px;
+    width: 5px;
 }
 
 .calculator__display::-webkit-scrollbar-thumb {

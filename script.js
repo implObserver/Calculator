@@ -136,9 +136,9 @@ function removePreset() {
     setDisabledDot(false);
 }
 
-function ansPreset(text = display.largeText.textContent) {
+function ansPreset(text = display.largeText.textContent, result = display.largeText.textContent) {
     isCalculated = false;
-    display.smallText.textContent = `Ans = ${text}`;
+    display.smallText.textContent = `Ans = ${result}`;
     display.largeText.textContent = text;
 }
 

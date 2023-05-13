@@ -36,8 +36,6 @@ button {
     min-width: 30px;
 }
 
-
-
 .calculator {
     border: 1px palevioletred solid;
     background-image: url(images/calcBackgroundV2.jpg);
@@ -123,9 +121,13 @@ button {
 #start-bracket__40,
 #end-bracket__41,
 #equal__61 {
-    position: relative;
     background-color: #ffe3bd;
     color: #5f238b;
+}
+
+.calculator__buttons__numbers,
+#dot__46 {
+    background-color: white;
 }
 
 .calculator__buttons:hover>.calculator__buttons__operands:hover,
@@ -138,14 +140,9 @@ button {
 }
 
 #equal__61:hover {
-    color:white;
+    color: white;
     background-color: rgb(255, 44, 118);
     top: -1px;
-}
-
-.calculator__buttons__numbers,
-#dot__46 {
-    background-color: white;
 }
 
 .calculator__buttons:hover>.calculator__buttons__numbers:hover {
@@ -156,6 +153,17 @@ button {
 .calculator__buttons:hover>.calculator__buttons__formatters:hover {
     background-color: rgb(231, 62, 121);
     top: -1px;
+}
+
+.calculator__buttons:active>.calculator__buttons__numbers:active,
+.calculator__buttons:active>.calculator__buttons__operands:active,
+.calculator__buttons:active>.calculator__buttons__formatters:active,
+#dot__46:active,
+#minus__45:active,
+#start-bracket__40:active,
+#end-bracket__41:active,
+#equal__61:active {
+    top: +1px;
 }
 
 #start-bracket__40 {

@@ -59,13 +59,11 @@ button {
     border: 1px palevioletred solid;
     border-radius: 10px;
     background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: end;
     height: 20%;
     width: 90%;
     padding: 8px;
+    overflow-x: scroll;
+    margin: auto;
 }
 
 .calculator__display__large-area__text {

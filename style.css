@@ -32,6 +32,7 @@ button {
     border: 1px palevioletred solid;
     border-radius: 10px;
     font-size: 18px;
+    min-width: 30px;
 }
 
 .calculator {

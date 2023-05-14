@@ -112,6 +112,7 @@ button {
     position: relative;
     font-size: 18px;
     min-width: 30px;
+    color: #5f238b;
 }
 
 .formatters {
@@ -120,12 +121,10 @@ button {
 }
 
 .operands,
-.numbers,
 .minus,
 .brackets,
 .equal {
     background-color: #ffe3bd;
-    color: #5f238b;
 }
 
 .numbers,
@@ -133,31 +132,31 @@ button {
     background-color: white;
 }
 
-.calculator__button-panel:hover>.operands:hover,
+.calculator__buttons:hover {
+    top: -1px;
+}
+
+.operands:hover,
 .dot:hover,
 .minus:hover,
 .brackets:hover {
     background: #fff8ee;
-    top: -1px;
 }
 
 .equal:hover {
     color: white;
     background-color: rgb(255, 44, 118);
-    top: -1px;
 }
 
-.calculator__button-panel:hover>.numbers:hover {
+.numbers:hover {
     background: #fff4e3;
-    top: -1px;
 }
 
-.calculator__button-panel:hover>.formatters:hover {
+.formatters:hover {
     background-color: rgb(231, 62, 121);
-    top: -1px;
 }
 
-.calculator__button-panel:active>.calculator__buttons:active {
+.calculator__buttons:active {
     top: +1px;
 }
 

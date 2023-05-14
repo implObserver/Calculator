@@ -117,6 +117,7 @@ buttons.equal.addEventListener('click', e => {
         display.smallText.textContent = equation + e.target.value;
         display.largeText.textContent = equationHandler(Array.from(equation), 0);
         isCalculated = true;
+        setDisabledDot(false);
     }
 })
 

@@ -207,43 +207,43 @@ button {
     grid-area: dot;
 }
 
-#num-1__49 {
+.num-1 {
     grid-area: _1;
 }
 
-#num-2__50 {
+.num-2 {
     grid-area: _2;
 }
 
-#num-3__51 {
+.num-3 {
     grid-area: _3;
 }
 
-#num-4__52 {
+.num-4 {
     grid-area: _4;
 }
 
-#num-5__53 {
+.num-5 {
     grid-area: _5;
 }
 
-#num-6__54 {
+.num-6 {
     grid-area: _6;
 }
 
-#num-7_55 {
+.num-7 {
     grid-area: _7;
 }
 
-#num-8__56 {
+.num-8 {
     grid-area: _8;
 }
 
-#num-9__57 {
+.num-9 {
     grid-area: _9;
 }
 
-#num-0__48 {
+.num-0 {
     grid-area: _0;
 }
 

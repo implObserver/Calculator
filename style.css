@@ -118,29 +118,29 @@ button {
 
 .calculator__buttons__operands,
 .calculator__buttons__numbers,
-#minus__45,
-#start-bracket__40,
-#end-bracket__41,
-#equal__61 {
+.minus,
+.start-bracket,
+.end-bracket,
+.equal {
     background-color: #ffe3bd;
     color: #5f238b;
 }
 
 .calculator__buttons__numbers,
-#dot__46 {
+.dot {
     background-color: white;
 }
 
 .calculator__buttons:hover>.calculator__buttons__operands:hover,
-#dot__46:hover,
-#minus__45:hover,
-#start-bracket__40:hover,
-#end-bracket__41:hover {
+.dot:hover,
+.minus:hover,
+.start-bracket:hover,
+.end-bracket:hover {
     background: #fff8ee;
     top: -1px;
 }
 
-#equal__61:hover {
+.equal:hover {
     color: white;
     background-color: rgb(255, 44, 118);
     top: -1px;
@@ -159,51 +159,51 @@ button {
 .calculator__buttons:active>.calculator__buttons__numbers:active,
 .calculator__buttons:active>.calculator__buttons__operands:active,
 .calculator__buttons:active>.calculator__buttons__formatters:active,
-#dot__46:active,
-#minus__45:active,
-#start-bracket__40:active,
-#end-bracket__41:active,
-#equal__61:active {
+.dot:active,
+.minus:active,
+.start-bracket:active,
+.end-bracket:active,
+.equal:active {
     top: +1px;
 }
 
-#start-bracket__40 {
+.start-bracket {
     grid-area: bracket-1;
 }
 
-#end-bracket__41 {
+.end-bracket {
     grid-area: bracket-2;
 }
 
-#plus__43 {
+.plus {
     grid-area: plus;
 }
 
-#minus__45 {
+.minus {
     grid-area: minus;
 }
 
-#multiply__215 {
+.multiply {
     grid-area: multiply;
 }
 
-#division__247 {
+.division {
     grid-area: division;
 }
 
-#equal__61 {
+.equal {
     grid-area: equal;
 }
 
-#delete {
+.delete {
     grid-area: del;
 }
 
-#remove {
+.remove {
     grid-area: rem;
 }
 
-#dot__46 {
+.dot {
     grid-area: dot;
 }
 

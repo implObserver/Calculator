@@ -1,13 +1,13 @@
 const MINBRACKETS = 2;
 
 const buttons = {
-    lBracket: document.querySelector('#start-bracket__40'),
-    rBracket: document.querySelector('#end-bracket__41'),
-    minus: document.querySelector('#minus__45'),
-    equal: document.querySelector('#equal__61'),
-    del: document.querySelector('#delete'),
-    remove: document.querySelector('#remove'),
-    dot: document.querySelector('#dot__46'),
+    lBracket: document.querySelector('.start-bracket'),
+    rBracket: document.querySelector('.end-bracket'),
+    minus: document.querySelector('.minus'),
+    equal: document.querySelector('.equal'),
+    del: document.querySelector('.delete'),
+    remove: document.querySelector('.remove'),
+    dot: document.querySelector('.dot'),
     numbers: Array.from(document.querySelectorAll('.calculator__buttons__numbers')),
     operands: Array.from(document.querySelectorAll('.calculator__buttons__operands')),
 }

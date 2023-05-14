@@ -29,11 +29,6 @@ main {
 
 button {
     cursor: pointer;
-    border: 1px palevioletred solid;
-    border-radius: 10px;
-    position: relative;
-    font-size: 18px;
-    min-width: 30px;
 }
 
 .calculator {
@@ -55,7 +50,7 @@ button {
     color: #5f238b;
 }
 
-.calculator__display__wrapper {
+.calculator__display-wrapper {
     border: 1px palevioletred solid;
     height: 20%;
     width: 90%;
@@ -87,17 +82,17 @@ button {
     border-radius: 10px;
 }
 
-.calculator__display__large-area__text {
+.calculator__display-large-area-text {
     font-size: 36px;
     color: #5f238b;
 
 }
 
-.calculator__display__small-area__text {
+.calculator__display-small-area-text {
     color: #5f238b;
 }
 
-.calculator__buttons {
+.calculator__button-panel {
     display: grid;
     gap: 1px;
     height: 80%;
@@ -111,31 +106,37 @@ button {
         '_0 dot equal plus';
 }
 
-.calculator__buttons__formatters {
+.calculator__buttons {
+    border: 1px palevioletred solid;
+    border-radius: 10px;
+    position: relative;
+    font-size: 18px;
+    min-width: 30px;
+}
+
+.formatters {
     background-color: rgb(255, 44, 118);
     color: white;
 }
 
-.calculator__buttons__operands,
-.calculator__buttons__numbers,
+.operands,
+.numbers,
 .minus,
-.start-bracket,
-.end-bracket,
+.brackets,
 .equal {
     background-color: #ffe3bd;
     color: #5f238b;
 }
 
-.calculator__buttons__numbers,
+.numbers,
 .dot {
     background-color: white;
 }
 
-.calculator__buttons:hover>.calculator__buttons__operands:hover,
+.calculator__button-panel:hover>.operands:hover,
 .dot:hover,
 .minus:hover,
-.start-bracket:hover,
-.end-bracket:hover {
+.brackets:hover {
     background: #fff8ee;
     top: -1px;
 }
@@ -146,24 +147,17 @@ button {
     top: -1px;
 }
 
-.calculator__buttons:hover>.calculator__buttons__numbers:hover {
+.calculator__button-panel:hover>.numbers:hover {
     background: #fff4e3;
     top: -1px;
 }
 
-.calculator__buttons:hover>.calculator__buttons__formatters:hover {
+.calculator__button-panel:hover>.formatters:hover {
     background-color: rgb(231, 62, 121);
     top: -1px;
 }
 
-.calculator__buttons:active>.calculator__buttons__numbers:active,
-.calculator__buttons:active>.calculator__buttons__operands:active,
-.calculator__buttons:active>.calculator__buttons__formatters:active,
-.dot:active,
-.minus:active,
-.start-bracket:active,
-.end-bracket:active,
-.equal:active {
+.calculator__button-panel:active>.calculator__buttons:active {
     top: +1px;
 }
 

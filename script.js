@@ -8,14 +8,14 @@ const buttons = {
     del: document.querySelector('.delete'),
     remove: document.querySelector('.remove'),
     dot: document.querySelector('.dot'),
-    numbers: Array.from(document.querySelectorAll('.calculator__buttons__numbers')),
-    operands: Array.from(document.querySelectorAll('.calculator__buttons__operands')),
+    numbers: Array.from(document.querySelectorAll('.numbers')),
+    operands: Array.from(document.querySelectorAll('.operands')),
 }
 
 const display = {
     area: document.querySelector('.calculator__display'),
-    smallText: document.querySelector('.calculator__display__small-area__text'),
-    largeText: document.querySelector('.calculator__display__large-area__text'),
+    smallText: document.querySelector('.calculator__display-small-area-text'),
+    largeText: document.querySelector('.calculator__display-large-area-text'),
 }
 
 const markers = ['\367', '\327', '+-'];

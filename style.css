@@ -115,6 +115,14 @@ button {
     color: #5f238b;
 }
 
+.calculator__buttons:hover {
+    top: -1px;
+}
+
+.calculator__buttons:active {
+    top: +1px;
+}
+
 .formatters {
     background-color: rgb(255, 44, 118);
     color: white;
@@ -132,10 +140,6 @@ button {
     background-color: white;
 }
 
-.calculator__buttons:hover {
-    top: -1px;
-}
-
 .operands:hover,
 .dot:hover,
 .minus:hover,
@@ -145,7 +149,7 @@ button {
 
 .equal:hover {
     color: white;
-    background-color: rgb(255, 44, 118);
+    background: rgb(255, 44, 118);
 }
 
 .numbers:hover {
@@ -154,10 +158,6 @@ button {
 
 .formatters:hover {
     background-color: rgb(231, 62, 121);
-}
-
-.calculator__buttons:active {
-    top: +1px;
 }
 
 .start-bracket {

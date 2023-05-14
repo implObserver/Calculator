@@ -45,13 +45,13 @@ buttons.lBracket.addEventListener('click', e => {
         defaultPreset();
     }
     bracketCounter += 1;
-    display.largeText.textContent += getSymbol(e);
+    display.largeText.textContent += e.target.value;
     setDisabledMinus(false);
 })
 
 buttons.rBracket.addEventListener('click', e => {
     bracketCounter -= 1;
-    display.largeText.textContent += getSymbol(e);
+    display.largeText.textContent += e.target.value;
     setDisabledMinus(true);
 })
 
@@ -73,7 +73,7 @@ buttons.minus.addEventListener('click', e => {
     if (isCalculated) {
         defaultPreset();
     }
-    display.largeText.textContent += getSymbol(e);
+    display.largeText.textContent += e.target.value;
     setDisabledMinus(true);
     setDisabledDot(false);
 })
@@ -87,7 +87,7 @@ for (let button of buttons.numbers) {
             defaultPreset('');
         }
         setDisabledMinus(false);
-        display.largeText.textContent += getSymbol(e);
+        display.largeText.textContent += e.target.value;
     });
 };
 
@@ -96,7 +96,7 @@ for (let button of buttons.operands) {
         if (isCalculated) {
             defaultPreset();
         }
-        display.largeText.textContent += getSymbol(e);
+        display.largeText.textContent += e.target.value;
         setDisabledOperands(true);
         setDisabledMinus(false);
         setDisabledDot(false);
@@ -107,14 +107,14 @@ buttons.dot.addEventListener('click', e => {
     if (isCalculated) {
         defaultPreset('');
     }
-    display.largeText.textContent += getSymbol(e);
+    display.largeText.textContent += e.target.value;
     setDisabledDot(true);
 })
 
 buttons.equal.addEventListener('click', e => {
     let equation = display.largeText.textContent.trim();
     if (validationInput(equation)) {
-        display.smallText.textContent = equation + getSymbol(e);
+        display.smallText.textContent = equation + e.target.value;
         display.largeText.textContent = equationHandler(Array.from(equation), 0);
         isCalculated = true;
     }
@@ -167,10 +167,6 @@ function setDisabledOperands(bool) {
 function clearAreas() {
     display.largeText.textContent = '';
     defaultPreset();
-}
-
-function getSymbol(e) {
-    return String.fromCharCode(e.target.id.split('__')[1]); //the symbol code is embedded in the id
 }
 
 function setDisabledMinus(bool) {
